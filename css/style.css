@@ -1,0 +1,161 @@
+body{
+/*  background: #cccccc;*/
+ 
+  background-color:#f5f5f5;
+}
+
+.parentcategory {
+   
+   line-height: 3rem;
+    margin-top: 1px;
+    list-style: none;
+    font-weight: bold;
+    
+    
+  }
+  .childcategory {
+    
+    
+    line-height: 3rem;
+    list-style: none;
+    
+    
+  }
+  .categoryborder{
+    border-bottom: solid 1px red;
+  }
+  .iconspan{
+      margin-right: 10px;
+  }
+
+  /* added by ashok for loader */
+  /* Center the loader */
+
+.loader {
+  position: absolute;
+  
+  background-color:yellow;
+   
+               
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0} 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0} 
+  to{ bottom:0; opacity:1 }
+}
+/* eof loader */
+
+/* legend */
+.the-legend {
+  border-style: none;
+  border-width: 0;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 0;
+  width: auto;
+  padding: 0 10px;
+  border: 1px solid #e0e0e0;
+}
+.the-fieldset {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+}
+/* eof legend */
+
+/* ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+} */
+
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  /*padding-inline-start: 0px;*/
+  padding-left: 0px;
+}
+
+
+/*
+input[type=text] {
+  background-color:#121212;
+  color:#ffffff;
+  border-color: #343940;  
+}
+input[type=text]:focus {
+  background-color:#121212;
+  color: #ffffff;
+}
+
+textarea:valid {
+  border: 1px solid #343940;
+  background-color:#121212;
+  color: #ffffff;
+  
+}
+
+textarea:valid:focus {
+ 
+  background-color:#121212;
+  color: #ffffff;
+  
+}
+
+textarea {
+background-color:#373737;
+}
+
+select {
+  width: 80%;
+  padding: 18px 22px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  background-color: #8842d5;  
+}
+
+*/

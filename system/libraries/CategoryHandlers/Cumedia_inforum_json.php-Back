@@ -1,0 +1,259 @@
+<?php
+class Cumedia_inforum_jsonHandler {
+	var $raw_feed_content = '';
+	var $xml_parser = null;
+	var $feed_uri = '';
+	var $storyListFeedContents = '';
+	var $storyFeed = '';
+
+	var $feedDef = array(
+		'title'=>'',
+		'type'=>'story',
+		'paid'=> 0,
+		'priority'=> 0,
+		'assetid'=> 0,
+		'description'=>'',
+		'content'=>'',
+		'icon_uri'=>'',
+		'caption'=>'',
+		'uri'=>'',
+		'pub_date'=>'',
+		'author'=>'',
+		
+	);
+
+	function __construct($category) {
+		$this->feed_uri = $category['source_uri'];
+	}
+
+	function __destruct() {
+		//nothing yet
+	}
+
+	function getFeedDef() {
+		return $this->feedDef;
+	}
+
+	function setCategoryVars($category) {
+		$category['source_uri'] = $this->feed_uri;
+		return $category;
+	}
+
+	function getUri() {
+
+	}
+
+	function getFeedContents($feed_uri) {
+		log_message('debug','Getting feed contents with URI:'.$feed_uri);
+		
+		// create curl resource
+		$ch = curl_init();
+		// set url
+		
+		curl_setopt($ch, CURLOPT_URL, $feed_uri);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERAGENT, "Whiz Technologies/102010 (http://whizti.com)");
+		//return the transfer as a string
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
+		curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE,0); //
+		curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT,0);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		
+$feedContents = curl_exec($ch);
+        if(curl_errno($ch)){
+            echo 'Curl error: ' . curl_error($ch);
+        }
+        
+		// close curl resource to free up system resources
+		curl_close($ch);
+      	return $feedContents;
+	}
+
+
+
+	/*
+	 * This will take a feed uri and fetch the list of stories
+	 */
+	function getStoryLink() { 
+		$this->storyListFeedContents = $this->getFeedContents($this->feed_uri);
+		if($this->storyListFeedContents=='') return false;
+		
+
+		$itemElements = json_decode($this->storyListFeedContents);	
+		if(count($itemElements)==0)	return false;
+			$stories = array();
+		$count = 0;
+				$feedDef = $this->getFeedDef();
+				$storyUrl=array();
+				foreach($itemElements->data->latestInSection->items as $element) {
+					$links = 'https://api.forum.cue.cloud'.$element->appdataUrl;
+					$storyUrl[] = $links;
+				}
+		
+		//return $storyUrl;
+	foreach($storyUrl as $storyLink){
+				$this->storyFeed = $this->getFeedContents($storyLink);
+				$itemElements = json_decode($this->storyFeed);	
+
+					if(count($itemElements)==0)	return false;
+						$text = '';
+						$count =$count+1;
+						$feedDef['priority'] = $count;
+
+					$feedDef['pub_date'] = $itemElements->data->context->updated;
+					if(isset($itemElements->data->context->authors[0]->name))
+					$feedDef['author'] = $itemElements->data->context->authors[0]->name;
+					$feedDef['title'] = $itemElements->data->context->title;
+					$feedDef['uri'] = $itemElements->data->context->href;
+					$feedDef['assetid'] = $itemElements->data->context->href;
+					$storyArray = $itemElements->data->context->fields->body;
+				
+		foreach($storyArray as $key => $storyValue){
+			$formatType = $storyValue->type;
+				foreach($storyValue->children as $k=>$paragraph){
+				 $counter = count((array)$paragraph);
+				  if( $counter > 2){
+					  $formatType = $paragraph->type;
+					  if($formatType =='a'){
+						  $href = $paragraph->href;
+						  $attr = $paragraph->attr;
+					  }
+						foreach($paragraph->children as $child){
+							if($child->type == 'text'){
+								$text .= '<'.$formatType . ' href="'.$href . '"  target= "'. $attr .'"> '.$child->text.' </'.$formatType.'>';
+							}
+						}
+						
+				  }else{
+					 	$text .= '<'.$formatType.'>'.$paragraph->text.'</'.$formatType.'>';
+				  }
+
+			}
+			
+			$feedDef['content'] = $text;
+			$feedDef['description'] = substr($text, 0, 250);
+			$feedDef['media'] = $this->storyMedia($itemElements);
+						
+		}
+		$stories[] = $feedDef;
+		
+}
+//print'<pre>';
+//print_r($stories);
+
+		return $stories;
+	}
+
+	/*
+	 * 
+	 */
+
+	 function refreshContent($category_id='') { 
+		if($category_id == '') return false;
+
+		global $CI;
+		$stories = $this->getStoryLink(); 
+		if(!is_array($stories) || sizeof($stories) == 0) {
+			log_message('error', 'ERROR WITH STORY RESULTS:'.$stories);
+			return false;
+		}
+		
+		
+		// setting priority 0 for Publication.
+		// before inserting new stories with priority .
+////	//	$this->feed_order_zero($category_id);
+		//storyvalidator($category_id, $stories); //story validator helper. commented on 30/3/2018
+		$media=array();
+		foreach($stories as $key => $story) {
+			$media = $story['media'];
+			unset($story['media']);
+		
+			$CI->db->where('category_id',$category_id);
+			$CI->db->where('title',$story['title']);
+			$CI->db->where('uri',$story['uri']);
+			$result = $CI->db->get('content');
+			$storyEntry = $result->row_array();
+			
+			if(sizeof($storyEntry) == 0) {
+				
+				$story['category_id'] = $category_id;
+				$result = $CI->db->insert('content', $story);
+				$story['id'] = $CI->db->insert_id();
+				$this->insrtMedia($category_id, $story['id'], $media);
+				//$error = $this->db->_error_message();
+				log_message('debug', 'Story Doesnt Exist, Adding....:'.$story['id']);
+				//log_message('debug', 'Story Doesnt Exist, Adding....:'.$story['id'].'--'.$this->label . '-- catid '.$this->catId);
+				
+			} else {
+				
+				$story['id'] = $storyEntry['id'];
+				log_message('debug','Story Exist, Attempting to Upate....:'.$story['id']);
+				$CI->db->where('id',$story['id']);
+				$CI->db->update('content', $story);
+				$this->insrtMedia($category_id, $story['id'], $media);
+
+			}
+
+		}
+	}
+
+	function insrtMedia($catid ,$storyid,  $media){
+				global $CI;
+                foreach ($media as $key=>  $value) { 
+                    $pictureData = array(
+                        'content_id' => $storyid,
+						'category_id' => $catid,
+						'media_order' => $key,
+                        'type' => $value['type'],
+                        'thumbnail' => $value['thumbnail'],
+                        'media' => $value['media'],
+                        'caption' => $value['caption'],
+                    );
+					
+					$result = $CI->db->insert('content_media',$pictureData);
+                    $pictureInsertId = $CI->db->insert_id();
+	
+                }
+            
+		}
+
+	function storyMedia($itemElements){
+			$media = array();
+			$related = array();
+			foreach($itemElements->data->context->topMedia as $value){
+				if($value->content->type =='Picture' && $value->content->fields->landscape390->href_full !=''){
+					$media['type'] =  'photo';
+					$media['media'] = $value->content->fields->landscape390->href_full; //work
+					$media['thumbnail'] = $value->content->fields->landscape320->href_full; //work
+					$media['caption'] = $value->caption;
+					$articleMedia[] = $media;
+				}
+			}
+			foreach($itemElements->data->context->relatedMedia as $relatedMedia){
+				if($relatedMedia->content->type =='Picture' && $relatedMedia->content->fields->landscape390->href_full !=''){ 
+					$related['type'] =  'photo';
+					$related['media'] = $relatedMedia->content->fields->landscape390->href_full; //work
+					$related['thumbnail'] = $relatedMedia->content->fields->landscape320->href_full; //work
+					$related['caption'] = $relatedMedia->caption;
+					$articleMedia[] = $related;
+				}
+			}
+			return $articleMedia;
+		}
+
+
+// excluding unwanted characters from title CURRENTLY NOT IN USE MAY BE USE IN FUTURE.
+	function unhtmlentities($string){
+			// replace numeric entities
+			$string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
+			$string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
+			// replace literal entities
+			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+			$trans_tbl = array_flip($trans_tbl);
+			return strtr($string, $trans_tbl);
+	}	
+
+
+}

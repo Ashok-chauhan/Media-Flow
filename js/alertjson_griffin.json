@@ -1,0 +1,92 @@
+[
+{
+"action": "scheme://section?id=2394",
+"alertBgColor": "#ff0000",
+"alertTitle": "PARENT SECTION",
+"alertTitleColor": "",
+"text": "AAAA Breaking now: Action to open section Recipe using parent section id-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://content?url=http://www.news9.com/story/39387990/suspicious-package-at-mustang-post-office-deemed-safe&sectionName=News%20Home",
+"alertBgColor": "#00ff00",
+"alertTitle": "DETAIL VIEW",
+"alertTitleColor": "",
+"text": "BBBB Breaking now: Action to open detail view of section Politics-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://section?id=2376",
+"alertBgColor": "#0000ff",
+"alertTitle": "SECTION BY ID",
+"alertTitleColor": "",
+"text": "CCCC Breaking now: Action to open National News section using section id-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://managenotifications",
+"alertBgColor": "#D2691E",
+"alertTitle": "MANAGE NOTIFICATIONS",
+"alertTitleColor": "",
+"text": "DDDD Breaking now: Action for Manage Notifications - Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://settings",
+"alertBgColor": "#ff00ff",
+"alertTitle": "SETTING",
+"alertTitleColor": "",
+"text": "EEEE Breaking now: Action for setting -Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://about",
+"alertBgColor": "#00ffff",
+"alertTitle": "ABOUT",
+"alertTitleColor": "#000000",
+"text": "FFFF Breaking now: Action for About",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://section?name=9%20Investigates",
+"alertBgColor": "#ff0000",
+"alertTitle": "SECTION NAME",
+"alertTitleColor": "",
+"text": "AAAA Breaking now:Action to open section 9 Investigate using section name.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://webkit?url=http://206.214.167.76/Promo.aspx?catId=317607",
+"alertBgColor": "#0000ff",
+"alertTitle": "WEBKIT",
+"alertTitleColor": "",
+"text": "CCCC Breaking now: Action to open webkit Educate Oklahoma-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://webkit?url=https://weather.whizti.com/?zip_code=73111",
+"alertBgColor": "#0000ff",
+"alertTitle": "WEATHER",
+"alertTitleColor": "",
+"text": "CCCC Breaking now: Action to open Weather-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+},
+{
+"action": "scheme://video?url=http://kwtv.videodownload.worldnow.com/KWTV_20181009104740423AA.mp4",
+"alertBgColor": "#0000ff",
+"alertTitle": "VIDEOS",
+"alertTitleColor": "",
+"text": "CCCC Breaking now: Action to open video Tornado damage north of-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "",
+"textColor": ""
+}
+]

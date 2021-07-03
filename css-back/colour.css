@@ -1,0 +1,161 @@
+
+small {
+	color:#888
+}
+
+th,#navigation,.active,.pagination a:hover,.date td a:hover {
+	background:#5DADF7;
+	color:#fff
+}
+
+tr {
+	background-position:0 -18px;
+}
+#content {
+	background-position:0 1px;
+}
+
+.active, th, #head, #navigation a, input[type=submit] {
+	color:#fff;
+}
+
+
+h1,h2,h3,h4,h5,h6 {
+	border-color:#ddd
+}
+
+a {
+	color:#888;
+	text-decoration: none;
+}
+a.edit {
+	background-image:url(edit.png)
+}
+a.delete {
+	background-image:url(trash.png)
+}
+
+#head {
+	background:#94CAFC;
+}
+
+#navigation a:hover {
+	background:#383E3C
+}
+#navigation .active {
+	background:#687370
+}
+
+/*.box,.box > .utils a {
+	background:#fff;
+	border-color:#eee
+}*/
+.box > h2 {
+	/*background:url(box-h2.png) repeat-x bottom center #fff*/
+}
+
+.error,.success,.info,.error a,.success a,.info a {
+	color:#fff
+}
+.error {
+	background:#901830
+}
+.success {
+	background:#C2EFC2
+}
+
+.glow-sortable-dropindicator {
+	background:#eee
+}
+
+/*developer css*/
+#login_head{background: #94CAFC;text-align:center;width: 500px;margin: 0 auto;padding: 10px;}
+#login_content{padding: 10px;width: 500px;margin: 0 auto;background: white url(gradient.png) repeat-x 0 -28px;}
+#login_content label{color: #105796;font-size: 15px;}
+
+#login_foot{padding: 10px;width: 500px;margin: 0 auto;background: white url(gradient.png) repeat-x 0 -28px;}
+.login_error{padding: 10px;width: 500px;margin: 0 auto;background: #F30045; color:#fff;}
+.error{padding: 10px;margin: 0 auto;background: #F30045; color:#fff;clear: both;}
+.error_grid{padding:10px;width: 920px;background: #F30045; color:#fff;}
+#registerForm .error{padding: 10px;width: 300px;margin: 0 auto;background: #F30045; color:#fff;height: 15px; clear:none;}
+.success{padding: 10px;width: 600px;margin: 0 auto;background:#0C0; color:#fff;}
+.success_grid{padding: 10px;width: 920px;background:#0C0; color:#fff;}
+#registerForm .success{padding: 10px;width: 300px;margin: 0 auto;background: #0C0; color:#fff;height: 15px;}
+.login_error p{margin:0 0 5px 0;}
+.depricated{background:#F3F; color:#fff;}
+.depricated_box{background: #F3F;width: 15px; height:15px;float: left;margin-right: 5px;}
+.invalid_product_code{background:#630; color:#fff;}
+.invalid_product_code_box{background: #630;width: 15px; height:15px;float: left;margin-right: 5px;}
+.invalid_expirationdate{background:#99F; color:#FFFFFF;}
+.invalid_expirationdate_box{background: #99F;width: 15px; height:15px;float: left;margin-right: 5px;}
+.already_registered{background:#F93; color:#FFF;}
+.already_registered_box{background: #F93; height:15px;width: 15px;float: left;margin-right: 5px;}
+#content { min-height:350px;}
+.register input{ width:300px;float: left;}
+.register p{float: left;}
+.register textarea{ width:300px;float: left;}
+.register label{display:inline; float:left;margin-right: 25px; width:100px;font-size: 14px;}
+.page_title{color: #94CAFC;font-size: 20px;font-weight: bold;margin-bottom: 23px;border-bottom: 1px solid #D0DADD;
+padding: 10px 10px 10px 0;}
+.modal{position:absolute; top:50px; display:none;} 
+.manage_table td{text-align:center;}
+.manage_table th{text-align:center;}
+.manage_table th, td {
+padding: 7px 10px;
+}
+.manage_table tbody td {
+background: #E8EDFF;
+/*border-right: 1px solid #AABCFE;
+border-left: 1px solid #AABCFE;*/
+}
+
+
+
+#box-table-a tbody td
+{
+	padding: 8px;
+	background: #E8F6FF; 
+	border-bottom: 1px solid #fff;
+	color: #000;
+	border-top: 1px solid transparent;
+}
+#box-table-a tbody tr:hover td
+{
+	background: #fff;
+}
+#box-table-a tbody .notsubscribed td
+{
+	background:#FCF2ED;
+}
+.user_manage label{font-size:15px;}
+.unsubscribed_box{background: #FCF2ED;width: 15px; height:15px;float: left;margin-right: 5px;margin-top: 2px;}
+.subscribed_box{background: #EFEDED;width: 15px; height:15px;float: left;margin-right: 5px;margin-top: 2px;}
+.link_button{background:#5DADF7; color:#fff; padding:10px; text-decoration:none;}
+ .tsmsselect {
+                        width: 21%;
+                        float: left;
+                }
+                
+                .tsmsselect select {
+                        width: 100%;
+                }
+                
+                .tsmsoptions {
+                        width: 5%;
+                        float: left;
+						margin: 0 21px;
+                }
+                
+                .tsmsoptions p {
+                        margin: 2px;
+                        text-align: center;
+                        font-size: larger;
+                        cursor: pointer;
+						padding: 7px;
+                }
+                
+                .tsmsoptions p:hover {
+                        color: White;
+                        background-color: Silver;
+                }
+				

@@ -1,0 +1,65 @@
+[
+{
+"action": "scheme://section?id=2394",
+"alertBgColor": "#F85A01",
+"alertTitle": "PARENT SECTION",
+"alertTitleColor": "#F801D3",
+"text": "AAAA Breaking now: Action to open section Recipe using parent section id-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "#D1C4C5",
+"textColor": "#09090A"
+},
+{
+"action": "scheme://content?url=http://www.news9.com/story/39238947/senator-collins-backs-kavanaugh-paving-way-for-confirmation&sectionName=Politics",
+"alertBgColor": "#818185",
+"alertTitle": "DETAIL VIEW",
+"alertTitleColor": "#237D04",
+"text": "BBBB Breaking now: Action to open detail view of section Politics-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "#E2F801",
+"textColor": "#040405"
+},
+{
+"action": "scheme://section?id=2376",
+"alertBgColor": "#F801D3",
+"alertTitle": "SECTION BY ID",
+"alertTitleColor": "#ffffff",
+"text": "CCCC Breaking now: Action to open National News section using section id-Lorem Ipsum is simply dummy text of the printing and typesetting",
+"textBgColor": "#FFFFFF",
+"textColor": "#050404"
+},
+{
+"action": "scheme://section?id=2376",
+"alertBgColor": "#237D04",
+"alertTitle": "SECTION BY ID",
+"alertTitleColor": "#ffffff",
+"text": "CCCC Breaking now: Action to open National News section using section id-Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "#D1C4C5",
+"textColor": "#0B11D1"
+},
+{
+"action": "scheme://managenotifications",
+"alertBgColor": "#D2691E",
+"alertTitle": "MANAGE NOTIFICATIONS",
+"alertTitleColor": "#ffffff",
+"text": "DDDD Breaking now: Action for Manage Notifications - Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "#383636",
+"textColor": "#0B11D1"
+},
+{
+"action": "scheme://managenotifications",
+"alertBgColor": "#D2691E",
+"alertTitle": "MANAGE NOTIFICATIONS",
+"alertTitleColor": "#ffffff",
+"text": "DDDD Breaking now: Action for Manage Notifications - Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "#383636",
+"textColor": "#0B11D1"
+},
+{
+"action": "scheme://section?name=Sanata%20barbara%20KEYT",
+"alertBgColor": "#D2691E",
+"alertTitle": "MANAGE NOTIFICATIONS",
+"alertTitleColor": "#ffffff",
+"text": "DDDD Breaking now: Action for Manage Notifications - Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+"textBgColor": "#383636",
+"textColor": "#0B11D1"
+}
+]
