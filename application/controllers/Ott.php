@@ -7,23 +7,20 @@ class Ott extends CI_Controller {
 	public function __construct() {
         parent::__construct();
 		parse_str($_SERVER['QUERY_STRING'],$_GET);
-		//$this->load->scaffolding('dev');
 		$this->load->helper('url');
 		$this->load->helper('form');
 		
 		
 		$this->load->helper('menu');
 		$user_type = $this->session->userdata('user');
-		// $this->template->assign('menu', getmenu($user_type['id']));
-		// $this->template->assign('pub_id',$user_type['pub_id']);
-        // $this->template->assign('type',$user_type['type']);
-        $this->menu   = getmenu($user_type['id']);
+		$this->menu   = getmenu($user_type['id']);
         $this->pub_id = $user_type['pub_id'];
         $this->type   = $user_type['type'];
 	}
 
 
 	function catStatus(){
+		
 	if(isset($_POST['catid'])){
 			if( $_POST['status']=='active') {
 				$this->db->where('id', $_POST['catid']);
@@ -42,6 +39,7 @@ class Ott extends CI_Controller {
 	}
 
 	function catlabel(){
+		
 		if(isset($_POST['catid'])){
 			$this->db->where('id', $_POST['catid']);
 			$this->db->update('category', array('label'=> $_POST['label']));
@@ -75,7 +73,7 @@ class Ott extends CI_Controller {
 				$this->db->where('publication_id', $this->uri->segment(3));
 				$pubid = $this->uri->segment(3);
 			}else{
-				//$this->db->where('publication_id', $user_type['pub_id']);
+			
 				$this->db->where('publication_id', $this->input->post('pub_id'));
 				$pubid = $this->input->post('pub_id');
 			}
@@ -163,31 +161,13 @@ class Ott extends CI_Controller {
 		}
 	
 		
-		// $this->template->setView('ott/category');
-		// $this->template->assign('type',$user_type['type']);
-		// $this->template->assign('menu', getmenu($user_type['id']));
-		
-		// if(isset($pubid)) $this->template->assign('pub_id', $pubid);
-		// $this->template->assign('page_name','category');
-		// if(isset($videos)) $this->template->assign('videos', $videos);
-		// if(isset($priority)) $this->template->assign('priority', count($priority));
-		// if(isset($catstatus)) $this->template->assign('status', $catstatus);
-		// if(isset($catid)) $this->template->assign('catid', $catid);
-		// if(isset($label)) $this->template->assign('label', $label);
-        // $this->template->render('main_body');
         
         $data['main']       = 'ott/category';
         $data['type']       = $this->type;
         $data['menu']       = $this->menu;
         if(isset($pubid)) $data['pub_id']   = $pubid;
         $data['page_name']  = 'category';
-        // if(isset($videos)) $data['videos']  = $videos;
-        // if(isset($priority)) $data['priority']  = count($priority);
-        // if(isset($catstatus)) $data['status']   = $catstatus;
-        // if(isset($catid))     $data['catid']    = $catid;
-		// if(isset($label))     $data['label']    = $label;
-		
-		$data['videos']  = $videos;
+        $data['videos']  = $videos;
         $data['priority']  = count($priority);
         $data['status']   = $catstatus;
         $data['catid']    = $catid;
@@ -203,6 +183,7 @@ public function edit(){
 		$user_type = $this->session->userdata('user');
 		$id = $this->uri->segment(3);
 		$pub_id = $this->uri->segment(4);
+		
 		$this->db->where('id', $id);
 		$Q = $this->db->get('content');
 		$video = $Q->row_array();
@@ -232,43 +213,28 @@ public function edit(){
 		$vtype = explode('/', $video['video_type']);
 		
 		$user_type = $this->session->userdata('user');
-		
-        //$this->template->assign('formatOption', array('mp4' =>'mp4', 'hls' => 'hls'));
-        $data['formatOption'] = array('mp4' => 'mp4', 'hls' => 'hls');
+		$data['formatOption'] = array('mp4' => 'mp4', 'hls' => 'hls');
 
 		if($video['video_type'] =='video/mp4'){
-            //$this->template->assign('formatSelect', 'mp4');
             $data['formatSelect'] = 'mp4';
 		}else{
             $data['formatSelect'] = 'hls';
-			//$this->template->assign('formatSelect', 'hls');
 		}
 
-		//$this->template->assign('typeOption', array('sponsored' =>'Sponsored', 'vod' => 'VOD', 'live' => 'Live Stream'));
+
         $data['typeOption'] = array('sponsored' =>'Sponsored', 'vod' => 'VOD', 'live' => 'Live Stream');
-        //$this->template->assign('typeSelect', $video['video_group']);
         $data['typeSelect'] = $video['video_group'];
-
-        //$this->template->assign('liveframeOption', array('0' =>'Off [0]', '1' => 'On [1]', '2' => 'Others [2]'));
         $data['liveframeOption'] = array('0' =>'Off [0]', '1' => 'On [1]', '2' => 'Others [2]');
-        //$this->template->assign('liveframeSelect', $video['liveframe']);
         $data['lveframeSelect'] = $video['liveframe'];
-
-        //$this->template->assign('menu', getmenu($user_type['id']));
+ 
         $data['menu'] = getmenu($user_type['id']);
 		if($user_type['pub_id']){
-            //$this->template->assign('pub_id',$user_type['pub_id']);
-            $data['pub_id'] = $user_type['pub_id'];
+                    $data['pub_id'] = $user_type['pub_id'];
 		}else{
-            //$this->template->assign('pub_id',$pub_id);
+        
             $data['pub_id'] = $pub_id;
 		}
-		// $this->template->assign('type',$user_type['type']);
-		// $this->template->assign('video',$video);
-		// $this->template->setView('ott/edit');
-		// $this->template->assign('page_name','edit');
-        // $this->template->render('main_body');
-
+		
         $data['type']   = $user_type['type'];
         $data['video']  = $video;
         $data['page_name'] = 'edit';

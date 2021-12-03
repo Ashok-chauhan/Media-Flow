@@ -1,5 +1,14 @@
 
- 
+ <style>
+  #dialog-message{
+  /* background: #9cf;*/
+ }
+
+ .dialog-text{
+   color: green;
+ }
+ </style>
+
   <script>
 
 // $(document).on({
@@ -18,11 +27,12 @@ function save_order()
 {
 	
 			
-			updateCategories() ;
+		//	updateCategories() ;
 			publication_id = $('#publication_id').val();
 			num_cats = $('#num_cats').val();
 			var order = $('#sortable').sortable("serialize") + '&publication_id='+publication_id+'&num_cats='+num_cats; 
-			console.log(order);
+			
+      console.log(order);
 			$.post("../../category/reorder_ajax", order, function(theResponse){
 				if(theResponse === 'success')
 				{
@@ -34,13 +44,14 @@ function save_order()
           
           datadiv = document.getElementById("dialog-message");
 
-          datadiv.innerHTML = '<span>Category order changed successfully.</span>';
+          datadiv.innerHTML = '<span class="dialog-text">Category order changed successfully.</span>';
 
             $( "#dialog-message" ).dialog({
               modal: true,
-              /* position: { my: "center top", at: "center top" },*/
+               position: { my: "center top", at: "center top+15%" },
               
               buttons: {
+                
                 Ok: function() {
                   $( this ).dialog( "close" );
                   
@@ -74,6 +85,7 @@ function save_order()
 <div class="col-md-7 col-lg-7 "> -->
 
 <!-- --->
+
 <div class="container">
 
     <fieldset class="border border-secondary rounded p-3">
@@ -82,14 +94,14 @@ function save_order()
     <div class="form-row">
 
     <!-- <button type="button" class="btn btn-outline-secondary" value="Add Category" onclick="show_category_type_model();"> Add CAtegory </button> -->
-    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal"> Add CAtegory </button> 
-    <button type="button" class="btn btn-outline-secondary" value="Refresh Publication" onClick="grabword('refcat','<?php echo $this->config->item('base_url');?>api/refreshpub/<?php echo $publication['id'];?>','<?php echo $publication['name'];?>');"> Refresh Publication </button>
+    <button type="button" class="btn btn-outline-secondary m-2" data-toggle="modal" data-target="#myModal"> Add CAtegory </button> 
+    <button type="button" class="btn btn-outline-secondary m-2" value="Refresh Publication" onClick="grabword('refcat','<?php echo $this->config->item('base_url');?>api/refreshpub/<?php echo $publication['id'];?>','<?php echo $publication['name'];?>');"> Refresh Publication </button>
       
       <?php if($pub_id !='' && $type =='admin'):?>
       
-		<button type="button" class="btn btn-outline-secondary" value="Settings" onClick='window.location="<?php echo $this->config->item('base_url');?>publication/settings/<?php echo $publication_id;?>"'> Settings </button>
+		<button type="button" class="btn btn-outline-secondary m-2" value="Settings" onClick='window.location="<?php echo $this->config->item('base_url');?>publication/settings/<?php echo $publication_id;?>"'> Settings </button>
   	  
-		<button type="button" class="btn btn-outline-secondary" value="Test Ads" onClick='window.location="<?php echo $this->config->item('base_url');?>publication/ads/<?php echo $publication_id;?>"'> Test Ads </button>
+		<button type="button" class="btn btn-outline-secondary m-2" value="Test Ads" onClick='window.location="<?php echo $this->config->item('base_url');?>publication/ads/<?php echo $publication_id;?>"'> Test Ads </button>
   	  
       <?php endif;?>
 
@@ -206,22 +218,14 @@ function save_order()
 
  
  <?php
-// print '<pre>';
-// print_r($all_categories);
-// exit;
-// foreach($all_categories as $key => $categories){
-//   echo '<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>PARENT-->'.$categories['label'].'</li>';
-//     if(is_array($categories['sub'])){
-//       foreach($categories['sub'] as $k => $category){
-//        echo '<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$category['label'].'</li>';
-//       }
-//     }
-//   }
+
 $base_url = $this->config->item('base_url');
 if($this->session->flashdata('catupdate')){
   print '<div class="alert alert-success" role="alert">'.$this->session->flashdata('catupdate').'</div>';
 }
-
+if($this->session->flashdata('superhomeMessage')){
+  print '<div class="alert alert-danger" role="alert">'.$this->session->flashdata('superhomeMessage').'</div>';
+} 
 ?>
 <!-- <div class="row">
 <div class="col-md-10 col-lg-10 "> -->
@@ -229,12 +233,16 @@ if($this->session->flashdata('catupdate')){
 <form action="" method="post" enctype="multipart/form-data" name="catForm" id="catForm">
       <input type="hidden" name="publication_id" id="publication_id" value="<?php echo $publication_id;?>"/>
       <input type="hidden" id="num_cats" name="num_cats" value="<?php echo $num_cats;?>"/>
-<ul id="sortable" style="padding-inline-start: 0px;">
+
+
+
+<div id="sortable" >
 <?php
 
 foreach($all_categories as $key => $categories){
-  echo '<li class="ui-widget-content parentcategory" id="cat_'.$categories['id'].'" ><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$categories['label'].'
-    <div style="float:right; width: 70px;">';
+  echo '<div id="cat_'.$categories['id'].'" class="row  bg-white p-1 m-1 border border-top-0 border-left-0 border-right-0 border-secondary">';
+  echo '<div class="col-9"  ><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'.$categories['label'].'
+    </div><div class="col-1">';
     if($categories['status'] == 'active'){?>
 
     <form action="/category/changecategorystatus" id="<?php echo $categories['id'].'_'.$publication_id;?>" name="<?php echo $categories['id'].'_'.$publication_id;?>" method="POST"> 
@@ -259,76 +267,108 @@ foreach($all_categories as $key => $categories){
     <?php  } ?>
     </div>
 
-       <div style="float:right; width: 70px;"><a href="/category/edit_cat/<?php echo $categories['id'];?>"><i style="font-size:24px;color:blue" class="fa fa-edit"></i></a></div>
-       <div style="float:right;  width: 70px;" >
+       <div class="col-1"><a href="/category/edit_cat/<?php echo $categories['id'];?>"><i style="font-size:24px;color:blue" class="fa fa-edit"></i></a></div>
+       <div class="col-1" >
     
        <a href="/api/refreshcat/<?php echo $categories['id'];?>" ><i style="font-size:24px;color:green" class="fa fa-refresh"></i>
        </a>
       
      </div>
-  </li>
+  </div>
+
 
 
   <?php
 
+  //subcat gose here
+  if(is_array($categories['sub'])){
+    foreach($categories['sub'] as $k => $category){
+      
+      echo ' <div id="cat_'.$category['id'].'" class="row  bg-white p-1 m-1 border border-top-0 border-left-0 border-right-0 ">';
+     echo '<div class="col-md-8" >&nbsp;&nbsp;&nbsp;&nbsp;|_&nbsp;&nbsp;&nbsp;&nbsp;<span class="ui-icon ui-icon-arrowthick-2-n-s "></span>'.$category['label'].'</div>
+     
+     <div class="col-md-1">';
+     if($category['status'] == 'active'){?>
 
-    if(is_array($categories['sub'])){
-      foreach($categories['sub'] as $k => $category){
-        //echo '&nbsp;&nbsp;&nbsp;&nbsp;|_&nbsp;&nbsp;&nbsp;&nbsp;';
-        // class="ui-state-default childcategory "
-        //ui-state-highlight
-        //ui-widget-content
-       echo '<li class="ui-widget-content childcategory" id="cat_'.$category['id'].'">&nbsp;&nbsp;&nbsp;&nbsp;|_&nbsp;&nbsp;&nbsp;&nbsp;<span class="ui-icon ui-icon-arrowthick-2-n-s "></span>'.$category['label'].'
-       
-       <div style="float:right; width: 70px;">';
-       if($category['status'] == 'active'){?>
+      
+      <!-- <a href="#" onClick="grabword('refcat','<?php //echo $base_url;?>category/changeStatus/<?php //echo $category['id'].'/'.$publication_id;?>/inactive','<?php //echo preg_replace("/[^A-Za-z0-9\.-]/", "", $category['label']);?>');"><i id="<?php //echo $category['label'].'_'.$category['id'].'_img';?>" style="font-size:24px;color:green" class="fa fa-check"></i></a> -->
+     
+     <form action="/category/changecategorystatus" id="<?php echo $category['id'].'_'.$publication_id;?>" name="<?php echo $category['id'].'_'.$publication_id;?>" method="POST"> 
+     <input type="hidden" id="categoryid" name="categoryid" value="<?php echo $category['id'];?>"/>
+     <input type="hidden" id="publicationid" name="publicationid" value="<?php echo $publication_id;?>"/>
+     <input type="hidden" id="status" name="status" value="inactive"/>
+     <input type="hidden" id="label" name="label" value="<?php echo $category['label'];?>"/>
+     <input type="image" src="<?php echo $base_url;?>images/active.png" alt="submit" width="25"/>
+     </form>
 
-        
-        <!-- <a href="#" onClick="grabword('refcat','<?php //echo $base_url;?>category/changeStatus/<?php //echo $category['id'].'/'.$publication_id;?>/inactive','<?php //echo preg_replace("/[^A-Za-z0-9\.-]/", "", $category['label']);?>');"><i id="<?php //echo $category['label'].'_'.$category['id'].'_img';?>" style="font-size:24px;color:green" class="fa fa-check"></i></a> -->
-       
-       <form action="/category/changecategorystatus" id="<?php echo $category['id'].'_'.$publication_id;?>" name="<?php echo $category['id'].'_'.$publication_id;?>" method="POST"> 
-       <input type="hidden" id="categoryid" name="categoryid" value="<?php echo $category['id'];?>"/>
-       <input type="hidden" id="publicationid" name="publicationid" value="<?php echo $publication_id;?>"/>
-       <input type="hidden" id="status" name="status" value="inactive"/>
-       <input type="hidden" id="label" name="label" value="<?php echo $category['label'];?>"/>
-       <input type="image" src="<?php echo $base_url;?>images/active.png" alt="submit" width="25"/>
+     <?php
+     }elseif($category['status'] == 'inactive'){ ?>
+      
+      <!-- <a href="#" onClick="grabword('refcat','<?php //echo $base_url;?>category/changeStatus/<?php //echo $category['id'].'/'.$publication_id;?>/inactive','<?php //echo preg_replace("/[^A-Za-z0-9\.-]/", "", $category['label']);?>');"><i id="<?php //echo $category['label'].'_'.$category['id'].'_img';?>" style="font-size:24px;color:red" class="fa fa-remove"></i></a> -->
+     
+      <form action="/category/changecategorystatus" id="<?php echo $category['id'].'_'.$publication_id;?>" name="<?php echo $category['id'].'_'.$publication_id;?>" method="POST"> 
+     <input type="hidden" id="categoryid" name="categoryid" value="<?php echo $category['id'];?>"/>
+     <input type="hidden" id="publicationid" name="publicationid" value="<?php echo $publication_id;?>"/>
+     <input type="hidden" id="status" name="status" value="active"/>
+     <input type="hidden" id="label" name="label" value="<?php echo $category['label'];?>"/>
+     <input type="image" src="<?php echo $base_url;?>images/inactive.png" alt="submit" width="25"/>
+     </form>
+
+     <?php }?>
+     
+     </div>
+     <div class="col-md-1"><a href="/category/edit_cat/<?php echo $category['id'];?>"><i style="font-size:24px;color:blue" class="fa fa-edit"></i></a></div>
+     <div class="col-md-1" id="superhome_<?php echo $category['id'];?>" style="float:right;  width: 70px;"  >
+    
+    <!-- super home -->
+    <?php if(in_array($category['id'], $superHome)){ ?>
+    <!-- <a href="#" onClick="superhome('<?php //echo $category['id'];?>','<?php //echo $category['publication_id'];?>','<?php //echo $category['label'];?>')"><i style="font-size:24px;color:green" class="fa fa-home"></i>
+     </a> -->
+
+     <form action="/category/superhome" id="<?php echo $category['id'].'_'.$publication_id;?>" name="<?php echo $category['id'].'_'.$publication_id;?>" method="POST"> 
+     <input type="hidden" id="categoryid" name="categoryid" value="<?php echo $category['id'];?>"/>
+     <input type="hidden" id="label" name="label" value="<?php echo $category['label'];?>"/>
+     <input type="hidden" id="publicationid" name="publicationid" value="<?php echo $publication_id;?>"/>
+     
+
+     <button type="submit" class="btn btn-success"><img src="<?php echo $base_url;?>images/house.svg" /></button>
        </form>
 
-       <?php
-       }elseif($category['status'] == 'inactive'){ ?>
-        
-        <!-- <a href="#" onClick="grabword('refcat','<?php //echo $base_url;?>category/changeStatus/<?php //echo $category['id'].'/'.$publication_id;?>/inactive','<?php //echo preg_replace("/[^A-Za-z0-9\.-]/", "", $category['label']);?>');"><i id="<?php //echo $category['label'].'_'.$category['id'].'_img';?>" style="font-size:24px;color:red" class="fa fa-remove"></i></a> -->
-       
-        <form action="/category/changecategorystatus" id="<?php echo $category['id'].'_'.$publication_id;?>" name="<?php echo $category['id'].'_'.$publication_id;?>" method="POST"> 
-       <input type="hidden" id="categoryid" name="categoryid" value="<?php echo $category['id'];?>"/>
-       <input type="hidden" id="publicationid" name="publicationid" value="<?php echo $publication_id;?>"/>
-       <input type="hidden" id="status" name="status" value="active"/>
-       <input type="hidden" id="label" name="label" value="<?php echo $category['label'];?>"/>
-       <input type="image" src="<?php echo $base_url;?>images/inactive.png" alt="submit" width="25"/>
-       </form>
 
-       <?php }?>
-       
-       </div><div style="float:right; width: 70px;"><a href="/category/edit_cat/<?php echo $category['id'];?>"><i style="font-size:24px;color:blue" class="fa fa-edit"></i></a></div>
-       <div style="float:right;  width: 70px;" >
+    <?php }else{ ?>
       
 
-       <a href="#" onClick="refreshcategory('<?php echo $category['id'];?>')"><i style="font-size:24px;color:green" class="fa fa-refresh"></i>
-       </a>
+     <form action="/category/superhome" id="<?php echo $category['id'].'_'.$publication_id;?>" name="<?php echo $category['id'].'_'.$publication_id;?>" method="POST"> 
+     <input type="hidden" id="categoryid" name="categoryid" value="<?php echo $category['id'];?>"/>
+     <input type="hidden" id="label" name="label" value="<?php echo $category['label'];?>"/>
+     <input type="hidden" id="publicationid" name="publicationid" value="<?php echo $publication_id;?>"/>
+     
+     <button type="submit" class="btn btn-warning"><img src="<?php echo $base_url;?>images/house.svg" /></button>
+     
+     </form>
 
-       <!-- <a href="/api/refreshcat/<?php echo $category['id'];?>"> <i style="font-size:24px;color:green" class="fa fa-refresh"></i></a> -->
+    <?php } ?>
+
+</div>
+<div class="col-md-1" >
+     <a href="#" onClick="refreshcategory('<?php echo $category['id'];?>')"><i style="font-size:24px;color:green" class="fa fa-refresh"></i>
+     </a>
+
+     <!-- <a href="/api/refreshcat/<?php echo $category['id'];?>"> <i style="font-size:24px;color:green" class="fa fa-refresh"></i></a> -->
 
 
-       <?php
-     echo '</div>
-     </li>';
-      
-      }
+     <?php
+   echo '</div></div>';
+    
     }
+  }
+ 
   }
   
 ?>
-</ul>
+</div>
+
+
 <!-- <input type="button" value="Save Ordering" class="btn btn-primary" name="saveorder" onclick="save_order();return false;"/> -->
 
 

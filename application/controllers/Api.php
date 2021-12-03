@@ -448,7 +448,8 @@ class Api extends CI_Controller {
         if($configobject->image_resizer_url) $response['response']['config']['image_resizer_url'] = $configobject->image_resizer_url;
         if($configobject->extra) $response['response']['config']['extra'] = $configobject->extra;
         if($configobject->user_consent_screen) $response['response']['config']['user_consent_screen'] = $configobject->user_consent_screen;
-        if($configobject->myhome) $response['response']['config']['myhome'] = $configobject->myhome;
+		if($configobject->myhome) $response['response']['config']['myhome'] = $configobject->myhome;
+		
 		$response['response']['config']['ccpa_email'] = $configobject->ccpa_email;
 		$response['response']['config']['ccpa_display'] = $configobject->ccpa_display;				
 		$response['response']['config']['about_text'] = $configobject->about;
@@ -1532,6 +1533,8 @@ private function sponsoredAd($category_id){
 		return $mediaEdited;
 	}
 
+	
+	
 
 
 

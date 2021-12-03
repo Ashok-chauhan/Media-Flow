@@ -12,7 +12,8 @@
     </tr>
   </thead>
   <tbody> 
-  	<?php foreach( $publications as $publication):?> 
+  	<?php foreach( $publications as $publication):?>
+  	 
 		<tr>
 			<td><?php echo $publication['id'];?></td>
 			<td><?php echo $publication['name'];?></td>

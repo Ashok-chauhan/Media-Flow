@@ -22,11 +22,11 @@ class Whiz_rss_storiesHandler {
 		'uri'=>'',
 		'pub_date'=>'',
 		'author'=>'',
-		'media_type'=>'',
-		'thumbnail'=>'',
-		'media'=>'',
+		'media_type'=>array(),
+		'thumbnail'=>array(),
+		'media'=>array(),
 		'share_url'=>'',
-		'media_caption'=>'',
+		'media_caption'=>array(),
 		'comments_url'=>''
         
 	);
@@ -79,7 +79,7 @@ function getFeedContents($feed_uri) {
 		//curl_setopt($ch, CURLOPT_CAINFO, "/var/www/prodman.whizti.com/system/libraries/CategoryHandlers/cacert11-4-2017.pem");
 
 		curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-		curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate,sdch');
+                curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate,sdch');
         // $output contains the output string
 		$feedContents = curl_exec($ch);
         if(curl_errno($ch)){
@@ -218,6 +218,7 @@ function getFeedContents($feed_uri) {
 								}
 							break;
 //////////////////////////////////BOF EXTRA IMAGE(MEDIA) MANIPULATION IN STORY 
+
 						case "multimedia":
                             $contentMedia = $element->childNodes;
                               foreach($contentMedia as $storyMedia){
@@ -249,7 +250,9 @@ function getFeedContents($feed_uri) {
                                     }
                                 }
                             }
-                           break;
+						   break;
+						   
+						   
 ///////////////////// EOF EXTRA IMAGE(MEDIA) MANIPULATIN //////////////
 						case "content":
 							// if Node content is avialable all the above should be  voerride.

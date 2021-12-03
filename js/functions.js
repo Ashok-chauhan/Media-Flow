@@ -131,6 +131,7 @@ function updateCategories() {
 
 // added by ashok
 function refreshcategory(cid){  
+	
 	//alert("http://ci3.com/api/refreshcat/"+cid);
    $("#loader").addClass('loader');
    
@@ -150,6 +151,44 @@ function refreshcategory(cid){
 		  }
 	});
 	  }
+
+	  function superhome(cid, pid, label){  
+		  
+		//alert("http://ci3.com/api/refreshcat/"+cid);
+	   $("#loader").addClass('loader');
+	   
+		  $.ajax({url: "http://ci3.com/api/superhome/"+cid+'/'+pid+'/'+label,
+			 animation: "spinner",
+			 success: function(result){
+			console.log(result);
+			//$("#message").append(result);
+		  $("#message").html('<span style="background:green;font-weight:bold; color:white;">'+ result +'</span>');
+		 
+		  //window.location.reload();
+		  
+		  if(result =='added'){
+$("#superhome_"+cid).html('<a href="#" onClick="superhomeRemove('+cid+','+pid+','+label+')"><i style="font-size:24px;color:green" class="fa fa-home"></i></a>');
+		  }
+
+		  
+		  $("#loader").removeClass('loader');
+		
+		 // $("#message").append(result);
+		  },
+		  error: function (jqXhr, textStatus, errorMessage) { // error callback 
+						  $('#message').html('<span style="background:red;font-weight:bold; color:white;">Error: ' + errorMessage +'</span>');
+				$("#loader").removeClass('loader');
+		   
+			  }
+		});
+		
+		console.log('super home' + 'pub id' + pid + 'cat it ' + cid);
+		  }
+
+
+
+
+		  
 	  
 
 

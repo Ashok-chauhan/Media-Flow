@@ -212,6 +212,18 @@ class Publication extends CI_Controller {
 		$all_categories = $this->GenerateNavArray($categories);
 		//print_r($all_categories);
 		$flashmsg = $this->session->flashdata('flashmsg'); //<!--kiran  aug 2-->
+		//get superhome categories.
+		$this->db->select('category_id');
+		$this->db->where('publication_id', $publication['id']);
+		$homeData = $this->db->get('superhome');
+		$super_home = $homeData->result_array();
+		$superHome = [];
+		if(count($super_home) >0){
+			foreach($super_home as $home ){
+				$superHome[] = $home['category_id'];
+			}
+		}
+		//
 
 		
 		// php template bof
@@ -231,10 +243,77 @@ class Publication extends CI_Controller {
 		$data['searched_type'] 	= $this->input->post('type');
 		$data['all_categories'] = $all_categories;
 		$data['num_cats']		= count($categories);
+		$data['superHome']		= $superHome;
 		$this->load->view('template', $data);
 		// php template eof
 	}
 
+
+	function superhome(){
+		$user_type = $this->session->userdata('user');
+		$this->db->select('myhome');
+		$this->db->where('id', $this->uri->segment(3));
+		$myhomeData = $this->db->get('publication');
+		$myhome = $myhomeData->row();
+		
+		$this->db->where('publication_id', $this->uri->segment(3));
+		$this->db->order_by('json_order');
+		$homeData = $this->db->get('superhome');
+		$super_home = $homeData->result_array();
+		
+		$data['main'] 			= 'publication/superhome';
+		//$data['flashmsg'] 		= $flashmsg;
+		$data['menu'] 			= getmenu($user_type['id']);
+		if($user_type['pub_id']){
+			$data['pub_id'] 	= $user_type['pub_id'];
+			}else{
+			$data['pub_id'] 	= $this->uri->segment(3);
+		}
+		$data['type']			= $user_type['type'];
+		$data['icon_base_url'] 	= $this->config->item('icon_base_url');
+		$data['page_name']		= 'categorypanel';
+		$data['num_cats']		= count($super_home);
+		$data['publication_id']	= $this->uri->segment(3);
+		$data['superhome']		= $super_home;
+		$data['myhome']			= $myhome;
+		$this->load->view('template', $data);
+
+
+		
+
+	}
+
+
+	public function setSuperhome(){
+		
+		$this->db->select('category_id');
+		$this->db->where('publication_id', $this->input->post('publicationid'));
+		$this->db->order_by('json_order');
+		$homeData = $this->db->get('superhome');
+		$super_home = $homeData->result_array();
+		$superHome = [];
+		if(count($super_home) >0){
+			foreach($super_home as $home ){
+				$superHome[] = $home['category_id'];
+			}
+		}else{
+			$this->session->set_flashdata('superhomeMessage','No Super home category, you have to select category!');
+			redirect('/publication/manage/'.$this->input->post('publicationid'));
+		}
+		
+		$superHomeSetting = json_encode(array(
+			'section_ids'=>$superHome,
+			'min_items'=> $this->input->post('min_items'),
+			'min_items_tablet'=> $this->input->post('min_items_tablet'),
+			'hide_alerts'=> $this->input->post('hide_alerts')?'1':'0'
+		));
+		$this->db->set('myhome', $superHomeSetting);
+		$this->db->where('id', $this->input->post('publicationid'));
+		$this->db->update('publication');
+		redirect('/publication/manage/'.$this->input->post('publicationid'));
+		
+	}
+	
 
 	//////// BOF Added by Ashok to Create Publication Group 02/11/2010 /////
 	function adgroup(){

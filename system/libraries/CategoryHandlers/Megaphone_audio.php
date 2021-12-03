@@ -22,13 +22,13 @@ class Megaphone_audioHandler {
 		'uri'=>'',
 		'pub_date'=>'',
 		'author'=>'',
-		'media_type'=>'',
-		'thumbnail'=>'',
-		'media'=>'',
-		'media_caption'=>'',
+		'media_type'=>array(),
+		'thumbnail'=>array(),
+		'media'=>array(),
+		'media_caption'=>array(),
 		
 		'comments_url'=>'',
-		'duration' => ''
+		'duration' => array()
         
 	);
 

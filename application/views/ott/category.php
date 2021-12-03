@@ -48,65 +48,86 @@ $( "#sortable" ).sortable({
 
 
 
-<div class="row">
+<div class="row border border-secondary border-left-0 border-right-0 border-top-0 m-2" >
+    <div class="col-md-12">
+    <h2 >Add OTT Video </h2>
+    </div>
+</div> <!-- end row -->
 
-<h2 style="background:none; color:#000;">Add OTT Video </h2>
-
-<h3><?php echo $label;?> is : </h3>
+<div class="row  m-2" >
 
 
-            <form action="<?php echo base_url();?>ott/catStatus" method="post" enctype="multipart/form-data" id="catstatus">
+<div class="col-md-2 m-3"><?php echo $label;?> is : </div> 
+
+
+
+            <form class="form-inline" action="<?php echo base_url();?>ott/catStatus" method="post" enctype="multipart/form-data" id="catstatus">
 <?php if($status =='inactive'):?>
+    
             <input type="hidden" name="catid" value="<?php echo $catid;?>">
 			<input type="hidden" name="pub_id" value="<?php echo $pub_id;?>">
 			<input type="hidden" name="status" value="<?php echo $status;?>">
-			<input type="submit" name="submit_catstat" value="Enabled "/>
+			<button type="submit" class="btn btn-outline-primary" name="submit_catstat">Enabled </button>
+    
             </form>
+
 <?php else: ?>
-            <form action="<?php echo base_url();?>ott/catStatus" method="post" enctype="multipart/form-data" id="catstatus">
+
+            <form class="form-inline" action="<?php echo base_url();?>ott/catStatus" method="post" enctype="multipart/form-data" id="catstatus">
+       
 			<input type="hidden" name="catid" value="<?php echo $catid;?>">
 			<input type="hidden" name="pub_id" value="<?php echo $pub_id;?>">
 			<input type="hidden" name="status" value="<?php echo $status;?>">
-			<input type="submit" name="submit_catstat" value="Disabled "/>
+			<button type="submit" class="btn btn-outline-primary m-3" name="submit_catstat"> Disabled </button>
+        
 			</form>
+
 <?php endif;?>
 
-            <form action="<?php echo base_url();?>ott/catlabel" method="post" enctype="multipart/form-data" id="catstatus">
-			<input type="text" name="label" id="label" value="<?php echo $label;?>" />
+            <form class="form-inline" action="<?php echo base_url();?>ott/catlabel" method="post" enctype="multipart/form-data" id="catstatus">
+
+			<input type="text"  class= "form-control m-3" name="label" id="label" value="<?php echo $label;?>" />
+
+
 			<input type="hidden" name="pub_id" value="<?php echo $pub_id;?>">
 			<input type="hidden" name="catid" value="<?php echo $catid;?>">
 			<input type="hidden" name="status" value="<?php echo $status;?>">
-	        <input type="submit" name="submit_label" value="Edit label "/>
+
+	        <button type="submit" class="btn btn-outline-primary m-3" name="submit_label"> Edit label </button>
+
+        
 			</form>
 
 
-</div>
+</div> <!--end of row -->
 
+<div class="row border border-secondary border-left-0 border-right-0 m-2"> <!-- bof 2 row -->
+<div class="col-mb-6 col-lg-6 col-sm-6 p-2"> 
 
-<div id="video" >
+<!-- <div id="video " > -->
 <form action="<?php echo base_url();?>ott/category" method="post" enctype="multipart/form-data" id="alignForm">
 
- <div class="mb-3">
-  <label for="video_url" class="form-label">Video URL</label>
+ <div class="form-group">
+  <!-- <label for="video_url" class="form-label">Video URL</label> -->
   <input type="text" class="form-control" id="video_url" name="video_url" placeholder="Video URL">
 </div>
 
-<div class="mb-3">
-  <label for="video_thumb" class="form-label">Another label</label>
+<div class="form-group">
+  <!-- <label for="video_thumb" class="form-label">Video thumbnail url</label> -->
   <input type="text" class="form-control" id="video_thumb" name="video_thumb" placeholder="Video thumbnail url">
 </div>
 
-<div class="mb-3">
-  <label for="video_title" class="form-label">Another label</label>
+<div class="form-group">
+  <!-- <label for="video_title" class="form-label">Video title</label> -->
   <input type="text" class="form-control" id="video_title" name="video_title" placeholder="Video title">
 </div>
     <input type="hidden" name="priority" value="<?php echo $priority;?>">
 	<input type="hidden" name="pub_id" value="<?php echo $pub_id;?>">
 
 
-    <div class="mb-3">
+    <div class="form-group">
         
-        <label for="format">Format</label>
+        <!-- <label for="format">Format</label> -->
         <?php
             $formatOption = [
                 '' => 'Please choose format',
@@ -125,9 +146,9 @@ $( "#sortable" ).sortable({
         </div>
 
 
-        <div class="mb-3">
+        <div class="form-group">
         
-        <label for="video_group">Please choose type</label>
+        <!-- <label for="video_group">Please choose type</label> -->
         <?php
             $videoOption = [
                 '' => 'Please choose type...',
@@ -145,10 +166,14 @@ $( "#sortable" ).sortable({
 
         ?>
         </div>
-
-        <div class="mb-3">
         
-        <label for="liveframe">Liveframe</label>
+</div><!-- eof col 1 -->
+
+
+<div class="col-mb-6 col-lg-6 col-sm-6 p-2"> <!-- bof col 2 -->
+        <div class="form-group">
+        
+        <!-- <label for="liveframe">Liveframe</label> -->
         <?php
             $liveframeOption = [
                 '' => 'Please choose Live frame...',
@@ -168,33 +193,35 @@ $( "#sortable" ).sortable({
         </div>
 
         
-<div class="mb-3">
-  <label for="daiAssetKey" class="form-label">dai asset key</label>
+<div class="form-group">
+  <!-- <label for="daiAssetKey" class="form-label">dai asset key</label> -->
   <input type="text" class="form-control" id="daiAssetKey" name="daiAssetKey" placeholder="dai asset key">
 </div>
-<div class="mb-3">
-  <label for="daiApiKey" class="form-label">dai api key</label>
+<div class="form-group">
+  <!-- <label for="daiApiKey" class="form-label">dai api key</label> -->
   <input type="text" class="form-control" id="daiApiKey" name="daiApiKey" placeholder="dai api key">
 </div>
-<div class="mb-3">
-  <label for="authUrl" class="form-label">Authentication url</label>
+<div class="form-group">
+  <!-- <label for="authUrl" class="form-label">Authentication url</label> -->
   <input type="text" class="form-control" id="authUrl" name="authUrl" placeholder="authUrl">
 </div>
 
 
-<div class="mb-3 form-check">
+<div class="  form-check">
     <input type="checkbox" class="form-check-input" id="sticky" name="sticky" value="1">
     <label class="form-check-label" for="sticky">Autoplay</label>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary btn-block">Submit</button>
 
 
 </form>
-</div>
+</div> <!--- end of col 2 -->
+
+</div> <!-- eof of 2 row -->
 
 
 
-<div class="row">
+<div class="row border border-secondary border-left-0 border-right-0 m-2" >
     <div id="sortable">
 	<?php foreach($videos as $vid => $video):?>
 	<div id= "item-<?php echo $video['id'];?>" class="item"><img src="<?php echo $video['icon_uri'];?>" width="250" >

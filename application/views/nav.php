@@ -39,6 +39,16 @@
         <li class="nav-item">
             <a class="nav-link" href="#">Sponsored Ad</a>
         </li>
+        
+        <li class="nav-item">
+        <?php if(isset($pub_id)):?>
+            <a class="nav-link" href="/publication/superhome/<?php echo $pub_id;?>">Superhome</a>
+        <?php else:?>
+          <a class="nav-link disabled" aria-disabled="true" href="#">Superhome</a>
+          <?php endif; ?>
+        </li>
+       
+
         <li class="nav-item">
             <a class="nav-link" href="/user/logout">Log out</a>
         </li>

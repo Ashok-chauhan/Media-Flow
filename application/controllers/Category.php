@@ -545,13 +545,47 @@ class Category extends CI_Controller {
 		$numCats = count($_POST['cat']);
 		$publication_id = $_POST['publication_id'];
 		$catArray = $_POST['cat'];
-		//print_r($_POST);print_r($catArray);exit;
+		//print_r($_POST);print_r($catArray); //exit;
 		for($i=0; $i < $numCats; $i++) {
 		//	$inputID = 'cat_'.$i;
 		//	$splitArray = preg_split('/__/',$_POST[$inputID]);
 			$catID = $catArray[$i];
 
 			$query = "UPDATE category SET date_modified= now(), ipad_catorder=".($i*10).",  cat_order=".$i." WHERE publication_id=".$publication_id." AND id=".$catID;
+			$this->db->query($query);
+//		echo $query."<br/>";
+			if($i == $numCats-1)
+			{
+				echo 'success';exit;
+			}
+		}
+		echo 'success';exit;
+	}
+
+	function reorder_ajax_superhome() { 
+		
+ 
+		
+		//die('got');
+		
+		//$numCats = $_POST['num_cats'];
+		$numCats = count($_POST['cat']);
+		$publication_id = $_POST['publication_id'];
+		$catArray = $_POST['cat'];
+		//print_r($_POST);print_r($catArray); //exit;
+
+
+						// creating log file for testing.
+						// $fp = fopen('/var/www/html/ci3/images/reorder.txt', 'a+');
+						// fwrite($fp,$publication_id."\n");
+						// fclose($fp);
+
+//die('got');
+		for($i=0; $i < $numCats; $i++) {
+		
+			$catID = $catArray[$i];
+
+			$query = "UPDATE superhome SET date_created= now(), json_order=".$i." WHERE publication_id=".$publication_id." AND id=".$catID;
 			$this->db->query($query);
 //		echo $query."<br/>";
 			if($i == $numCats-1)
@@ -627,5 +661,45 @@ class Category extends CI_Controller {
 			redirect('/publication/manage/'.$this->input->post('publicationid'));
 
 		}
+
+		//Super home
+	public function superhome(){
+		$cid = $this->input->post('categoryid');
+		$pid = $this->input->post('publicationid');
+		$label = $this->input->post('label');
+		
+		$data = array(
+			'category_id'	=>$cid,
+			'publication_id'=>$pid,
+			'label'			=>$label,
+			'date_created'	=>date('Y-m-d')
+
+		);
+		$query = $this->db->query("SELECT category_id FROM superhome WHERE category_id=$cid");
+		$catid = $query->row();
+		
+		if($query->num_rows() >0){
+			//delete
+			$catid = $query->row();
+			$this->db->delete('superhome', array('category_id' =>$catid->category_id));
+			//print 'removed';
+						
+		}else{
+			//insert
+			$this->db->insert('superhome', $data);
+			//print 'added';
+			
+		}
+		redirect('/publication/manage/'.$this->input->post('publicationid'));
+	}
+
+	function deletesuperhome(){
+		$this->db->where('id', $this->input->post('id'));
+		$this->db->delete('superhome');
+		redirect('/publication/superhome/'.$this->input->post('publicationid'));
+	}
+
+
+
 	
 }
